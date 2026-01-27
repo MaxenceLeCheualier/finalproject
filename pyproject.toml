@@ -1,0 +1,17 @@
+[project]
+name = "finalproject"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Maxence Le Cheualier", email = "maxence.le_cheualier@etu.minesparis.psl.eu" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+finalproject = "finalproject.main:main"
+
+[build-system]
+requires = ["uv_build>=0.9.5,<0.10.0"]
+build-backend = "uv_build"
