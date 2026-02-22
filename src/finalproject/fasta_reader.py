@@ -12,7 +12,7 @@ class FastaReader:
         """ 
         self.filepath = filepath
 
-    def read(self) -> dict(str, str):
+    def read(self) -> dict:
         """
         Read the fasta file and return a dictionnary of sequences, distinguished by their names,and their variants if any.
 
@@ -67,3 +67,8 @@ class FastaReader:
         return sequences
 
                 
+if __name__ == "__main__":
+    reader = FastaReader("seq_to_align.fasta")
+    sequences = reader.read()
+
+print(sequences)
