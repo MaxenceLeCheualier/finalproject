@@ -67,8 +67,3 @@ class FastaReader:
         return sequences
 
                 
-if __name__ == "__main__":
-    reader = FastaReader("seq_to_align.fasta")
-    sequences = reader.read()
-
-print(sequences)
