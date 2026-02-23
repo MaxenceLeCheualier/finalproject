@@ -18,7 +18,7 @@ class NeedlemanWunsch:
         self.mismatch_penalty = mismatch_penalty
         self.gap_penalty = gap_penalty
     
-    def score_matrix(self, seq : str, var : str) :
+    def score_matrix(self, seq : str, var : str) -> list :
         """
         Build the score matrix for the given sequences, using the Needleman-Wunsch algorithm.
         Args:
@@ -31,12 +31,27 @@ class NeedlemanWunsch:
 
         matrix = [[0 for i in range(long_seq)] for _ in range(long_var)]
 
-        # Initialize the first row and column of the score matrix
-        for i in range(long_seq):
-            matrix[0][i] = self.gap_penalty * i
-        for j in range(long_var):
-            matrix[j][0] = self.gap_penalty * j
+        #  Firt row and first column initialized with the sum of gap penalties
+        for j in range(long_seq):
+            matrix[0][j] = self.gap_penalty * j
+        for i in range(long_var):
+            matrix[i][0] = self.gap_penalty * i
+
+        for i in range (1, long_var):
+            for j in range(1, long_seq):
+                if seq[j-1] == var[i-1]:     #There is a match diagonal score grows by the match score 
+                    diagonal_score = matrix[i-1][j-1] + self.match_score
+                else :                       #There is a mismatch diagonal score grows by the mismatch penalty
+                    diagonal_score = matrix[i-1][j-1] + self.mismatch_penalty
+                
+                #The two other scores are the up and left scores, they grow by the gap penalty
+                up_score = matrix[i-1][j] + self.gap_penalty   
+                left_score = matrix[i][j-1] + self.gap_penalty
+                
+                #The score of the cell is the maximum of the three scores calculated above
+                matrix[i][j] = max(diagonal_score, up_score, left_score)
         
-        
+        return matrix
+
     
 
