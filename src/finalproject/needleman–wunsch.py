@@ -66,34 +66,36 @@ class NeedlemanWunsch:
         aligned_seq = ""
         aligned_var = ""
 
-        i = len(var) + 1
-        j = len(seq) + 1
+        i = len(var) 
+        j = len(seq)
 
         while i > 0 and j > 0: 
 
-            diagonal_score = matrix[i-1][j-1]
-            up_score = matrix[i-1][j]
-            left_score = matrix[i][j-1]
-            max_score = max(diagonal_score, up_score, left_score)
             move_done = False
 
-            if max_score == diagonal_score:   #We are in a match or mismatch case
-                aligned_seq = seq[j-1] + aligned_seq
-                aligned_var = var[i-1] + aligned_var
+            if var[i] == seq[j]:    
+                aligned_seq = seq[j] + aligned_seq
+                aligned_var = var[i] + aligned_var
                 i -= 1
                 j -= 1
-                move_done = True
+                move_done
             
-            elif max_score == up_score and not move_done:      #We are in a gap case for the non-variant sequence
-                aligned_seq = "-" + aligned_seq
-                aligned_var = var[i-1] + aligned_var
-                i -= 1
-            
-            else :                           #We are in a gap case for the variant sequence
-                aligned_seq = seq[j-1] + aligned_seq
-                aligned_var = "-" + aligned_var
-                j -= 1
-                move_done = True
+            if not move_done:      #We are in a gap case for the non-variant sequence
+                
+                up_score = matrix[i-1][j]
+                left_score = matrix[i][j-1]
+
+                if up_score >= left_score:   
+                    aligned_seq = "-" + aligned_seq
+                    aligned_var = var[i] + aligned_var
+                    i -= 1
+                    move_done = True
+                
+                else:
+                    aligned_seq = seq[j] + aligned_seq
+                    aligned_var = "-" + aligned_var
+                    j -= 1
+                    move_done = True  
 
             
 
