@@ -97,6 +97,31 @@ class NeedlemanWunsch:
                     j -= 1
                     move_done = True  
 
+        return aligned_seq, aligned_var
+    
+    def align(self, sequences : dict) -> dict:
+        """
+        Perform the global sequence alignment for all the sequences in the input dictionary and return a new dictionary with the aligned sequences.
+
+        Args:
+            sequences (dict): The sequences to be aligned encoded using de fasta reader class.
+        Returns:
+            aligned_sequences (dict): A dictionary where keys are sequence names and values are lists of aligned sequences (str)
+        """
+
+        aligned_sequences = {}
+
+        for name, seqs in sequences.items():
+            seq = seqs[0]
+            var = seqs[1]
+
+            matrix = self.score_matrix(seq, var)
+            aligned_seq, aligned_var = self.traceback(matrix, seq, var)
+
+            aligned_sequences[name] = [aligned_seq, aligned_var]
+
+        return aligned_sequences
+
             
 
 
