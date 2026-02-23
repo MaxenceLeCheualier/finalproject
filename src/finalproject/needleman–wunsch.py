@@ -32,12 +32,14 @@ class NeedlemanWunsch:
         matrix = [[0 for i in range(long_seq)] for _ in range(long_var)]
 
         #  Firt row and first column initialized with the sum of gap penalties
+        # We chose to use the first row to refer to the variant sequence and the first column to refer to the non-variant sequence
+
         for j in range(long_seq):
             matrix[0][j] = self.gap_penalty * j
         for i in range(long_var):
             matrix[i][0] = self.gap_penalty * i
 
-        for i in range (1, long_var):
+        for i in range (1, long_var):       
             for j in range(1, long_seq):
                 if seq[j-1] == var[i-1]:     #There is a match diagonal score grows by the match score 
                     diagonal_score = matrix[i-1][j-1] + self.match_score
@@ -52,6 +54,47 @@ class NeedlemanWunsch:
                 matrix[i][j] = max(diagonal_score, up_score, left_score)
         
         return matrix
+    
+    def traceback(self, matrix : list, seq : str, var : str) :
+        """
+        Use the score matrix defined above to perform tht traceback and find an optimal global alignement between the two sequences
+        Args:
+            matrix (list): The score matrix calculated by the score_matrix method.
+            seq (str): The first sequence to be aligned.
+            var (str): The second sequence to be aligned.
+        """
+        aligned_seq = ""
+        aligned_var = ""
+
+        i = len(var) + 1
+        j = len(seq) + 1
+
+        while i > 0 and j > 0: 
+
+            diagonal_score = matrix[i-1][j-1]
+            up_score = matrix[i-1][j]
+            left_score = matrix[i][j-1]
+            min_score = min(diagonal_score, up_score, left_score)
+
+            if min_score == diagonal_score:   #We are in a match or mismatch case
+                aligned_seq = seq[j-1] + aligned_seq
+                aligned_var = var[i-1] + aligned_var
+                i -= 1
+                j -= 1
+            
+            elif min_score == up_score:      #We are in a gap case for the non-variant sequence
+                aligned_seq = "-" + aligned_seq
+                aligned_var = var[i-1] + aligned_var
+                i -= 1
+            
+            else :                           #We are in a gap case for the variant sequence
+                aligned_seq = seq[j-1] + aligned_seq
+                aligned_var = "-" + aligned_var
+                j -= 1
+
+            
+
+
 
     
 
