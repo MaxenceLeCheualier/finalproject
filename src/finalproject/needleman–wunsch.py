@@ -73,29 +73,14 @@ class NeedlemanWunsch:
 
             move_done = False
 
-            if var[i] == seq[j]:    
-                aligned_seq = seq[j] + aligned_seq
-                aligned_var = var[i] + aligned_var
-                i -= 1
-                j -= 1
-                move_done
-            
-            if not move_done:      #We are in a gap case for the non-variant sequence
-                
-                up_score = matrix[i-1][j]
-                left_score = matrix[i][j-1]
+            if aligned_seq[i] == aligned_var[j]:
+                diagonal_score = matrix[i][j] - 1
+            else : 
+                diagonal_score = matrix[i][j] + 1
+            left_score = matrix[i][j] + 2
+            up_score = matrix[i][j] + 2
 
-                if up_score >= left_score:   
-                    aligned_seq = "-" + aligned_seq
-                    aligned_var = var[i] + aligned_var
-                    i -= 1
-                    move_done = True
-                
-                else:
-                    aligned_seq = seq[j] + aligned_seq
-                    aligned_var = "-" + aligned_var
-                    j -= 1
-                    move_done = True  
+
 
         return aligned_seq, aligned_var
     
@@ -121,9 +106,6 @@ class NeedlemanWunsch:
             aligned_sequences[name] = [aligned_seq, aligned_var]
 
         return aligned_sequences
-
-            
-
 
 
     
