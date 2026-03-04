@@ -69,20 +69,65 @@ class NeedlemanWunsch:
         i = len(var) 
         j = len(seq)
 
-        while i > 0 and j > 0: 
+        while i > 0 and j > 0 : 
 
-            move_done = False
+            current_score = matrix[i][j]
+            up_score = matrix[i-1][j]
+            left_score = matrix[i][j-1]
+            diagonal_score = matrix[i-1][j-1]
+            move_done = False    #a bolean in order to instaure a priority system in case of equality beetwen several neighbour of the current score 
 
-            if aligned_seq[i] == aligned_var[j]:
-                diagonal_score = matrix[i][j] - 1
-            else : 
-                diagonal_score = matrix[i][j] + 1
-            left_score = matrix[i][j] + 2
-            up_score = matrix[i][j] + 2
+            #We give the priority to the diagonal movement, which means we need to distinguish the match and the mismatch cases.
 
+            if seq[i] == seq[j]:
+                if current_score == diagonal_score + self.match_score :
+                    aligned_seq += seq[j-1]
+                    aligned_var += var[i-1]
+                    i -= 1
+                    j -= 1
+                    move_done = True 
+            
+            else: 
+                if current_score == diagonal_score + self.mismatch_penalty :
+                    aligned_seq += seq[j-1]
+                    aligned_var += var[i-1]
+                    i -= 1
+                    j -= 1
+                    move_done = True 
+            
+            #The second priority is the up movement (which is an arbitrary choice)
 
+            if current_score == up_score + self.gap_penalty and not move_done : 
+                aligned_seq += "-"
+                aligned_var += var[i-1]
+                i -= 1
+                move_done = True 
+            
+            #Here comes the left movement
+
+            if current_score == left_score + self.gap_penalty and not move_done : 
+                aligned_seq += seq[j-1]
+                aligned_var += "-"
+
+        if i == 1 and j != 1 : 
+            # In this case we can only go up 
+            
+            while j > 1: 
+                aligned_seq += "-"
+                aligned_var += aligned_var[i-1]
+                i -=1
+        
+        if j == 1 and j !=1 : 
+            
+            #In this cas we can only go to the left
+            while j > 1 : 
+                aligned_seq = aligned_seq[j-1]
+                aligned_var = "-"
+                j -= 1
 
         return aligned_seq, aligned_var
+
+
     
     def align(self, sequences : dict) -> dict:
         """
