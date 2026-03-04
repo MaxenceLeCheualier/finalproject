@@ -52,7 +52,7 @@ class NeedlemanWunsch:
                 
                 #The score of the cell is the maximum of the three scores calculated above
                 matrix[i][j] = max(diagonal_score, up_score, left_score)
-        
+
         return matrix
     
     def traceback(self, matrix : list, seq : str, var : str) :
@@ -146,6 +146,19 @@ class NeedlemanWunsch:
         return aligned_sequences
     
 
+def main():
+    seq = "GATTACA"
+    var = "GCATGC"
+
+    nw = NeedlemanWunsch({})
+
+    matrix = nw.score_matrix(seq, var)
+
+    print("\n--- Matrice ---")
+    for row in matrix:
+        print(row)
+
+    print("\nScore final :", matrix[len(var)][len(seq)])
 
 
     
