@@ -74,30 +74,22 @@ class NeedlemanWunsch:
             current_score = matrix[i][j]
             up_score = matrix[i-1][j]
             left_score = matrix[i][j-1]
-            diagonal_score = matrix[i-1][j-1]
+            diagonal_score = matrix[i-1][j-1] + self.match_score if seq[j-1] == var[i-1] else self.mismatch_penalty
+            
+            
             move_done = False    #a bolean in order to instaure a priority system in case of equality beetwen several neighbour of the current score 
 
             #We give the priority to the diagonal movement, which means we need to distinguish the match and the mismatch cases.
 
-            if seq[i] == seq[j]:
-                if current_score == diagonal_score + self.match_score :
-                    aligned_seq += seq[j-1]
-                    aligned_var += var[i-1]
-                    i -= 1
-                    j -= 1
-                    move_done = True 
-            
-            else: 
-                if current_score == diagonal_score + self.mismatch_penalty :
-                    aligned_seq += seq[j-1]
-                    aligned_var += var[i-1]
-                    i -= 1
-                    j -= 1
-                    move_done = True 
+            if current_score == diagonal_score + diagonal_score:
+                aligned_seq += seq[j-1]
+                aligned_var += var[i-1]
+                i -= 1
+                j -= 1
             
             #The second priority is the up movement (which is an arbitrary choice)
 
-            if current_score == up_score + self.gap_penalty and not move_done : 
+            elif current_score == up_score + self.gap_penalty and not move_done : 
                 aligned_seq += "-"
                 aligned_var += var[i-1]
                 i -= 1
@@ -105,27 +97,26 @@ class NeedlemanWunsch:
             
             #Here comes the left movement
 
-            if current_score == left_score + self.gap_penalty and not move_done : 
+            elif current_score == left_score + self.gap_penalty and not move_done : 
                 aligned_seq += seq[j-1]
                 aligned_var += "-"
 
-        if i == 1 and j != 1 : 
-            # In this case we can only go up 
-            
-            while j > 1: 
-                aligned_seq += "-"
-                aligned_var += aligned_var[i-1]
-                i -=1
-        
-        if j == 1 and j !=1 : 
-            
-            #In this cas we can only go to the left
-            while j > 1 : 
-                aligned_seq = aligned_seq[j-1]
-                aligned_var = "-"
-                j -= 1
+            while i > 0:
+                #In this cas we can only go up
 
-        return aligned_seq, aligned_var
+                aligned_seq += "-"
+                aligned_var += var[i-1]
+                i -= 1
+
+            while j > 0:
+               #In this case we can only to the left 
+
+               aligned_seq += seq[j-1]
+               aligned_var += "-"
+               j -= 1
+
+        #We started from the end, then we have to reverse the string"
+        return aligned_seq[::-1], aligned_var[::-1]
 
 
     
