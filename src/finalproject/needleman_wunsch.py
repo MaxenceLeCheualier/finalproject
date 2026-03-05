@@ -72,16 +72,14 @@ class NeedlemanWunsch:
         while i > 0 and j > 0 : 
 
             current_score = matrix[i][j]
-            up_score = matrix[i-1][j]
-            left_score = matrix[i][j-1]
-            diagonal_score = matrix[i-1][j-1] + self.match_score if seq[j-1] == var[i-1] else self.mismatch_penalty
+            up_score = matrix[i-1][j] + self.gap_penalty
+            left_score = matrix[i][j-1] + self.gap_penalty
+            diagonal_score = matrix[i-1][j-1] + self.match_score if seq[j-1] == var[i-1] else matrix[i-1][j-1] + self.mismatch_penalty
             
-            
-            move_done = False    #a bolean in order to instaure a priority system in case of equality beetwen several neighbour of the current score 
-
+    
             #We give the priority to the diagonal movement, which means we need to distinguish the match and the mismatch cases.
 
-            if current_score == diagonal_score + diagonal_score:
+            if current_score == diagonal_score :
                 aligned_seq += seq[j-1]
                 aligned_var += var[i-1]
                 i -= 1
@@ -89,31 +87,31 @@ class NeedlemanWunsch:
             
             #The second priority is the up movement (which is an arbitrary choice)
 
-            elif current_score == up_score + self.gap_penalty and not move_done : 
+            elif current_score == up_score :
                 aligned_seq += "-"
                 aligned_var += var[i-1]
                 i -= 1
-                move_done = True 
-            
+                
             #Here comes the left movement
 
-            elif current_score == left_score + self.gap_penalty and not move_done : 
+            elif current_score == left_score  :
                 aligned_seq += seq[j-1]
                 aligned_var += "-"
+                j -= 1 
 
-            while i > 0:
-                #In this cas we can only go up
+        while i > 0:
+            #In this cas we can only go up
 
-                aligned_seq += "-"
-                aligned_var += var[i-1]
-                i -= 1
+            aligned_seq += "-"
+            aligned_var += var[i-1]
+            i -= 1
 
-            while j > 0:
-               #In this case we can only to the left 
+        while j > 0:
+            #In this case we can only to the left 
 
-               aligned_seq += seq[j-1]
-               aligned_var += "-"
-               j -= 1
+            aligned_seq += seq[j-1]
+            aligned_var += "-"
+            j -= 1
 
         #We started from the end, then we have to reverse the string"
         return aligned_seq[::-1], aligned_var[::-1]
@@ -144,26 +142,21 @@ class NeedlemanWunsch:
         return aligned_sequences
     
 
-
 def main():
-    test_sequences = {
-        "Exemple_Simple": ["GATTACA", "GCATGC"]
-    }
-
-    nw = NeedlemanWunsch(test_sequences)
-
-    results = nw.align(test_sequences)
-
-    print("--- Résultats de l'alignement global ---")
-    for name, aligned_pair in results.items():
-        print(f"\nNom du test : {name}")
-        print(f"Séquence 1 : {aligned_pair[0]}")
-        print(f"Séquence 2 : {aligned_pair[1]}")
-        
-
+    nw = NeedlemanWunsch({})
+    
+    seq = "TTGACGT"
+    var = "TGACG"
+    
+    matrix = nw.score_matrix(seq, var)
+    print("\n--- Matrice ---")
+    for row in matrix:
+        print(row)
+    
+    # Test minimaliste de traceback sur la dernière cellule
+    aligned_seq, aligned_var = nw.traceback(matrix, seq, var)
+    print("\n--- TRACEBACK ---")
+    print(aligned_seq)
+    print(aligned_var)
 if __name__ == "__main__":
     main()
-
-
-    
-
