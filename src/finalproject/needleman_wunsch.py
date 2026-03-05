@@ -142,21 +142,3 @@ class NeedlemanWunsch:
         return aligned_sequences
     
 
-def main():
-    nw = NeedlemanWunsch({})
-    
-    seq = "TTGACGT"
-    var = "TGACG"
-    
-    matrix = nw.score_matrix(seq, var)
-    print("\n--- Matrice ---")
-    for row in matrix:
-        print(row)
-    
-    # Test minimaliste de traceback sur la dernière cellule
-    aligned_seq, aligned_var = nw.traceback(matrix, seq, var)
-    print("\n--- TRACEBACK ---")
-    print(aligned_seq)
-    print(aligned_var)
-if __name__ == "__main__":
-    main()
