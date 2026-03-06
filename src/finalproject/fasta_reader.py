@@ -19,7 +19,7 @@ class FastaReader:
         Args :
             None
         Returns :
-            sequences (dict) : A dictionnary where keys are sequence names and values are listes of sequences (str)
+            sequences (dict[str, list[str]]) : A dictionnary where keys are sequence names and values are listes of sequences (str)
         """
 
         sequences = {}
