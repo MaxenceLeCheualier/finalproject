@@ -12,7 +12,7 @@ class FastaReader:
         """ 
         self.filepath = filepath
 
-    def read(self) -> dict:
+    def read(self) -> dict[str, list[str]]:
         """
         Read the fasta file and return a dictionnary of sequences, distinguished by their names,and their variants if any.
 

@@ -3,7 +3,7 @@ class NeedlemanWunsch:
     Class to perform global sequence alignment using the Needleman-Wunsch algorithm.
     """
 
-    def __init__(self, sequences : dict, match_score: int = 1, mismatch_penalty: int = -1, gap_penalty: int = -2):
+    def __init__(self, sequences : dict, match_score: int = 1, mismatch_penalty: int = -1, gap_penalty: int = -2) -> None:
         """
         Initialize the Needleman-Wunsch algorithm with scoring parameters.
 
@@ -18,7 +18,7 @@ class NeedlemanWunsch:
         self.mismatch_penalty = mismatch_penalty
         self.gap_penalty = gap_penalty
     
-    def score_matrix(self, seq : str, var : str) -> list :
+    def score_matrix(self, seq : str, var : str) -> list[list[int]] :
         """
         Build the score matrix for the given sequences, using the Needleman-Wunsch algorithm.
         Args:
@@ -55,7 +55,7 @@ class NeedlemanWunsch:
         
         return matrix
     
-    def traceback(self, matrix : list, seq : str, var : str) :
+    def traceback(self, matrix : list[list[int]], seq : str, var : str) -> tuple[str, str] :
         """
         Use the score matrix defined above to perform tht traceback and find an optimal global alignement between the two sequences
         Args:
@@ -118,7 +118,7 @@ class NeedlemanWunsch:
 
 
     
-    def align(self, sequences : dict) -> dict:
+    def align(self, sequences : dict[str, list[str]]) -> dict[str, list[str]]:
         """
         Perform the global sequence alignment for all the sequences in the input dictionary and return a new dictionary with the aligned sequences.
 
