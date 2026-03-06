@@ -58,7 +58,8 @@ def test_fasta_reader_on_two_line(tmp_path):
         "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGG\n"
         "TCTCATATTTCGTGGTGCCGACA\n"
         ">seq1_var1\n"
-        "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTC\n"
+        "GTCCAAATATTGGGGAGAGT\n"
+        "AGATTGATCGTTCAGGGTC\n"
         "TCATATTTCGGTGCCGACA\n"
     )
 
