@@ -96,3 +96,17 @@ def test_fasta_reader_commented_line(tmp_path):
     
     assert sequences["seq1"][0] == "ACGTTGCA"
     assert sequences["seq1"][1] == ""
+
+def test_fasta_reader_without_variant(tmp_path):
+
+    fasta_file = tmp_path / "without_variant.fasta"
+    fasta_file.write_text(
+        ">seq1\n"
+        "ACGT\n"
+    )
+
+    reader = FastaReader(str(fasta_file))
+    sequences = reader.read()
+
+    assert sequences["seq1"][0] == "ACGT"
+    assert sequences["seq1"][1] == ""
