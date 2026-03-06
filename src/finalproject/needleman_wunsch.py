@@ -3,12 +3,12 @@ class NeedlemanWunsch:
     Class to perform global sequence alignment using the Needleman-Wunsch algorithm.
     """
 
-    def __init__(self, sequences : dict, match_score: int = 1, mismatch_penalty: int = -1, gap_penalty: int = -2):
+    def __init__(self, sequences : dict[str, list[str]], match_score: int = 1, mismatch_penalty: int = -1, gap_penalty: int = -2) -> None:
         """
         Initialize the Needleman-Wunsch algorithm with scoring parameters.
 
         Args:
-            sequences (dict): The sequences to be aligned encoded using de fasta reader class.
+            sequences (dict[str, list[str]]): The sequences to be aligned encoded using de fasta reader class.
             match_score (int): The score for a match (default: 1)
             mismatch_penalty (int): The penalty for a mismatch (default: -1)
             gap_penalty (int): The penalty for a gap (default: -2)
@@ -18,12 +18,14 @@ class NeedlemanWunsch:
         self.mismatch_penalty = mismatch_penalty
         self.gap_penalty = gap_penalty
     
-    def score_matrix(self, seq : str, var : str) -> list :
+    def score_matrix(self, seq : str, var : str) -> list[list[int]] :
         """
         Build the score matrix for the given sequences, using the Needleman-Wunsch algorithm.
         Args:
             seq (str): The first sequence to be aligned.
             var (str): The second sequence to be aligned.
+        Returns : 
+            matrix (list[list[int]]) : The score matrix
         """
 
         long_seq = len(seq) + 1
@@ -55,13 +57,15 @@ class NeedlemanWunsch:
         
         return matrix
     
-    def traceback(self, matrix : list, seq : str, var : str) :
+    def traceback(self, matrix : list[list[int]], seq : str, var : str) -> tuple[str, str] :
         """
         Use the score matrix defined above to perform tht traceback and find an optimal global alignement between the two sequences
         Args:
-            matrix (list): The score matrix calculated by the score_matrix method.
+            matrix (list[list[int]]): The score matrix calculated by the score_matrix method.
             seq (str): The first sequence to be aligned.
             var (str): The second sequence to be aligned.
+        Returns :
+            tuple[str, str] : the tuple of the two sequences aligned
         """
         aligned_seq = ""
         aligned_var = ""
@@ -118,7 +122,7 @@ class NeedlemanWunsch:
 
 
     
-    def align(self, sequences : dict) -> dict:
+    def align(self, sequences : dict[str, list[str]]) -> dict[str, list[str]]:
         """
         Perform the global sequence alignment for all the sequences in the input dictionary and return a new dictionary with the aligned sequences.
 
