@@ -1,7 +1,7 @@
 import pytest
 from finalproject.fasta_reader import FastaReader 
 
-def test_fasta_reader(tmp_path): 
+def test_fasta_reader_simple(tmp_path): 
     
     fasta_file = tmp_path / "test.fasta"
     
@@ -52,7 +52,8 @@ def test_fasta_reader(tmp_path):
 
 def test_fasta_reader_on_two_line(tmp_path):
     
-    fasta_file = tmp_path / "test.fasta"
+    fasta_file = tmp_path / "test_on_two_line.fasta"
+    
     fasta_file.write_text(
         ">seq1\n"
         "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGG\n"
@@ -69,3 +70,29 @@ def test_fasta_reader_on_two_line(tmp_path):
     assert sequences["seq1"][0] == "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGGTCTCATATTTCGTGGTGCCGACA"
     assert sequences["seq1"][1] == "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTCTCATATTTCGGTGCCGACA"
 
+def test_fasta_reader_empty_sequence(tmp_path):
+    
+    fasta_file = tmp_path / "empty.fasta"
+    fasta_file.write_text("")
+    
+    reader = FastaReader(str(fasta_file))
+    sequences = reader.read()
+    assert sequences == {}
+
+def test_fasta_reader_commented_line(tmp_path):
+    
+    fasta_file = tmp_path / "comments.fasta"
+    fasta_file.write_text(
+        "; Comment\n"
+        "\n"
+        ">seq1\n"
+        "ACGT\n"
+        "; Another comment\n"
+        "TGCA\n"
+    )
+    
+    reader = FastaReader(str(fasta_file))
+    sequences = reader.read()
+    
+    assert sequences["seq1"][0] == "ACGTTGCA"
+    assert sequences["seq1"][1] == ""
