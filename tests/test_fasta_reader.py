@@ -1,5 +1,5 @@
 import pytest
-from src.finalproject.fasta_reader import FastaReader 
+from finalproject.fasta_reader import FastaReader 
 
 def test_fasta_reader(tmp_path): 
     
@@ -32,7 +32,7 @@ def test_fasta_reader(tmp_path):
         "CCCTAACTTTGCGCAGCTAGGTGGACTGTCGGTTTGTACATACAGCCTCCTGTATTCAG\n"
     )
         
-    reader = FastaReader(str(fasta_file))
+    reader = FastaReader(fasta_file)
     sequences = reader.read()
 
     assert sequences["seq1"][0] == "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGGTCTCATATTTCGTGGTGCCGACA"
@@ -49,3 +49,22 @@ def test_fasta_reader(tmp_path):
     
     assert sequences["seq5"][0] == "CCCTTACTTTGAGCAGCTAGGTGGACTGTCGGATTTGTGCATGCAGCCTCCTGTATTCAG"
     assert sequences["seq5"][1] == "CCCTAACTTTGCGCAGCTAGGTGGACTGTCGGTTTGTACATACAGCCTCCTGTATTCAG"
+
+def test_fasta_reader_on_two_line(tmp_path):
+    
+    fasta_file = tmp_path / "test.fasta"
+    fasta_file.write_text(
+        ">seq1\n"
+        "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGG\n"
+        "TCTCATATTTCGTGGTGCCGACA\n"
+        ">seq1_var1\n"
+        "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTC\n"
+        "TCATATTTCGGTGCCGACA\n"
+    )
+
+    reader = FastaReader(fasta_file)
+    sequences = reader.read()
+
+    assert sequences["seq1"][0] == "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGGTCTCATATTTCGTGGTGCCGACA"
+    assert sequences["seq1"][1] == "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTCTCATATTTCGGTGCCGACA"
+
