@@ -29,7 +29,7 @@ def test_needleman_one_mismatch():
     assert seq == "AAAA"
     assert var == "TAAA"
 
-def test_needleman_one_gape():
+def test_needleman_one_gap():
 
     sequences = { "seq1" : ["ATGCTGAT", "ATGCTGT"]}
 
@@ -40,4 +40,16 @@ def test_needleman_one_gape():
 
     assert seq == "ATGCTGAT"
     assert var == "ATGCTG-T"
+
+def test_needleman_empty_variant():
+    
+    sequences = { "seq1" : ["ATGCTGAT", ""]}
+
+    nw = NeedlemanWunsch(sequences)
+    aligned = nw.align(sequences)
+
+    seq, var = aligned["seq1"]
+
+    assert seq == "ATGCTGAT"
+    assert var == "--------"
 
