@@ -53,3 +53,32 @@ def test_needleman_empty_variant():
     assert seq == "ATGCTGAT"
     assert var == "--------"
 
+def test_needleman_simple_test_multiple_seq():
+
+    sequences = {
+        "seq1": [
+            "ACGTGCTAGTACCGTATCGTAGCTAGTAC",
+            "ACGTGCTAGTACGTATCGTAGCTAGTAC"
+        ],
+        "seq2": [
+            "GATCGTAGCTAGCTAGGCTATCGTAGCTA",
+            "GATCGTAGCTAGGCTATCGTAGCTA"
+        ],
+        "seq3": [
+            "TTGACCGTAGCTAGCTAACGTTAGCTAGCT",
+            "TTGACGTAGCTAGCTAACGTTAGCTAGCT"
+        ],
+    }
+    
+    nw = NeedlemanWunsch(sequences)
+    aligned = nw.align(sequences)
+
+       
+    assert aligned["seq1"][0] == "ACGTGCTAGTACCGTATCGTAGCTAGTAC"
+    assert aligned["seq1"][1] == "ACGTGCTAGTA-CGTATCGTAGCTAGTAC"
+
+    assert aligned["seq2"][0] == "GATCGTAGCTAGCTAGGCTATCGTAGCTA"
+    assert aligned["seq2"][1] == "GATC---G-TAGCTAGGCTATCGTAGCTA"
+
+    assert aligned["seq3"][0] == "TTGACCGTAGCTAGCTAACGTTAGCTAGCT"
+    assert aligned["seq3"][1] == "TTGA-CGTAGCTAGCTAACGTTAGCTAGCT"
