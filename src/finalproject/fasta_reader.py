@@ -19,57 +19,50 @@ class FastaReader:
         return self._filepath
 
     def read(self) -> dict[str, Sequence]:
-        """
-        Read the fasta file and return a dictionnary of sequences, distinguished by their names,and their variants if any.
+            """
+            Read the fasta file and return a dictionnary of sequences, distinguished by their names,and their variants if any.
+    
+            Args :
+                None
+            Returns :
+                sequences (dict[str, Sequence]) : A dictionnary where keys are sequence names and values are listes of sequences (str)
+            """
 
-        Args :
-            None
-        Returns :
-            sequences (dict[str, list[str]]) : A dictionnary where keys are sequence names and values are listes of sequences (str)
-        """
+            sequences = {}
+            name = None 
+            variant = False
 
-        sequences = {}
-        name = None 
+            with open(self.filepath, 'r') as file:
+                for line in file:
+                    line = line.strip()
 
-        variant = False
+                    # Empty lines and comment lines are ignored 
+                    if not line or line.startswith(';'): 
+                        continue 
 
-        with open(self.filepath, 'r') as file:
-            for line in file:
-                line = line.strip()
-
-                #Empty lines and comment lines are ignored 
-                if not line or line.startswith(';'): 
-                    continue 
-
-                #Lines starting with '>' are sequence names (variant and non-variant)
-                if line.startswith('>'):
-                    # We start a new sequence, it means we need to reinitialize the variable of the variant we have just treated
-                    if name is not None and variant:
-                        variant = False
-                        name = None
+                    # Lines starting with '>' are sequence names (variant and non-variant)
+                    if line.startswith('>'):
+                        # Determine if the line corresponds to a variant
+                        if "_var" in line:
+                            variant = True
+                        # Note: We don't reset 'name' here to keep the variant linked to its original sequence
+                        else:
+                            # We start a new original sequence
+                            variant = False
+                            name = line[1:].strip()
                         
-                    if name is None:
-                        name = line[1:].strip()
-                        sequences[name] = Sequence(name)
+                            # If this name is not yet in sequences, create a Sequence instance
+                            if name not in sequences:
+                                sequences[name] = Sequence(name)
 
-                        # The sequence bellow is a variant of the previous one
-                    elif "_var" in line:
-                        variant = True
+                   # Lines that are sequences 
+                    else : 
+                        if name is not None:
+                            # If name is initialized and variant is False, we are in a non-variant sequence
+                            if not variant:
+                                sequences[name].original = sequences[name].original + line
+                            # If name is initialized and variant is True, we are in a variant sequence
+                            else: 
+                                sequences[name].variant = sequences[name].variant + line
 
-                    #End of variant sequence case
-
-
-                
-                # Lines that are sequences 
-                else : 
-                    #If name is initialized and variant is False, we are in a non-variant sequence
-                    if name is not None and not variant:
-                        sequences[name].original += line
-                    
-                    elif name is not None and variant: 
-                    #If name is initialized and variant is True, we are in a variant sequence
-                        sequences[name].variant += line
-        
-        return sequences
-
-                
+            return sequences

@@ -26,7 +26,7 @@ class Sequence:
     
     @original.setter
     def original(self, value : str) -> None : 
-        self._original += value
+        self._original = value
     
 
     @property
@@ -35,5 +35,5 @@ class Sequence:
     
     @variant.setter
     def variant(self, value: str) -> None:
-        self._variant += value
+        self._variant = value
 

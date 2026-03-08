@@ -62,7 +62,9 @@ def test_needleman_one_gap():
 
 def test_needleman_empty_variant():
     
-    sequences = { "seq1" : ["ATGCTGAT", ""]}
+    sequences = {
+    "seq1": Sequence(name="seq1", original="ATGCTGAT", variant="")
+    }
 
     nw = NeedlemanWunsch(sequences)
     aligned = nw.align(sequences)
