@@ -11,8 +11,8 @@ def test_needleman_simple_match():
     nw = NeedlemanWunsch(sequences)
     aligned = nw.align(sequences)
 
-    assert aligned["seq1"][0] == "AAAA"
-    assert aligned["seq1"][1] == "AAAA"
+    assert aligned["seq1"].original == "AAAA"
+    assert aligned["seq1"].variant == "AAAA"
 
 def test_needleman_one_mismatch():
 
@@ -23,7 +23,9 @@ def test_needleman_one_mismatch():
     nw = NeedlemanWunsch(sequences)
     aligned = nw.align(sequences)
 
-    seq, var = aligned["seq1"]
+    aligned_obj = aligned["seq1"]
+    seq = aligned_obj.original
+    var = aligned_obj.variant 
 
     assert len(seq) == len(var)
     assert seq == "AAAA"
@@ -36,7 +38,9 @@ def test_needleman_one_gap():
     nw = NeedlemanWunsch(sequences)
     aligned = nw.align(sequences)
 
-    seq, var = aligned["seq1"]
+    aligned_obj = aligned["seq1"]
+    seq = aligned_obj.original
+    var = aligned_obj.variant 
 
     assert seq == "ATGCTGAT"
     assert var == "ATGCTG-T"
@@ -48,7 +52,9 @@ def test_needleman_empty_variant():
     nw = NeedlemanWunsch(sequences)
     aligned = nw.align(sequences)
 
-    seq, var = aligned["seq1"]
+    aligned_obj = aligned["seq1"]
+    seq = aligned_obj.original
+    var = aligned_obj.variant 
 
     assert seq == "ATGCTGAT"
     assert var == "--------"
@@ -74,11 +80,11 @@ def test_needleman_simple_test_multiple_seq():
     aligned = nw.align(sequences)
 
        
-    assert aligned["seq1"][0] == "ACGTGCTAGTACCGTATCGTAGCTAGTAC"
-    assert aligned["seq1"][1] == "ACGTGCTAGTA-CGTATCGTAGCTAGTAC"
+    assert aligned["seq1"].original == "ACGTGCTAGTACCGTATCGTAGCTAGTAC"
+    assert aligned["seq1"].variant == "ACGTGCTAGTA-CGTATCGTAGCTAGTAC"
 
-    assert aligned["seq2"][0] == "GATCGTAGCTAGCTAGGCTATCGTAGCTA"
-    assert aligned["seq2"][1] == "GATC---G-TAGCTAGGCTATCGTAGCTA"
+    assert aligned["seq2"].original == "GATCGTAGCTAGCTAGGCTATCGTAGCTA"
+    assert aligned["seq2"].variant == "GATC---G-TAGCTAGGCTATCGTAGCTA"
 
-    assert aligned["seq3"][0] == "TTGACCGTAGCTAGCTAACGTTAGCTAGCT"
-    assert aligned["seq3"][1] == "TTGA-CGTAGCTAGCTAACGTTAGCTAGCT"
+    assert aligned["seq3"].original == "TTGACCGTAGCTAGCTAACGTTAGCTAGCT"
+    assert aligned["seq3"].variant == "TTGA-CGTAGCTAGCTAACGTTAGCTAGCT"
