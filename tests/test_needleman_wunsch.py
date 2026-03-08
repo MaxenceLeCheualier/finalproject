@@ -5,7 +5,11 @@ from finalproject.sequence import Sequence
 def test_needleman_simple_match():
 
     sequences = {
-        "seq1": ["AAAA", "AAAA"]
+    "seq1": Sequence(
+        name="seq1",
+        original="AAAA",
+        variant="AAAA"
+    )
     }
 
     nw = NeedlemanWunsch(sequences)
@@ -17,8 +21,13 @@ def test_needleman_simple_match():
 def test_needleman_one_mismatch():
 
     sequences = {
-        "seq1": ["AAAA", "TAAA"]
+    "seq1": Sequence(
+        name="seq1",
+        original="AAAA",
+        variant="TAAA"
+    )
     }
+    
 
     nw = NeedlemanWunsch(sequences)
     aligned = nw.align(sequences)
@@ -33,7 +42,13 @@ def test_needleman_one_mismatch():
 
 def test_needleman_one_gap():
 
-    sequences = { "seq1" : ["ATGCTGAT", "ATGCTGT"]}
+    sequences = {
+    "seq1": Sequence(
+        name="seq1",
+        original="ATGCTGAT",
+        variant="ATGCTGT"
+    )
+    }
 
     nw = NeedlemanWunsch(sequences)
     aligned = nw.align(sequences)
