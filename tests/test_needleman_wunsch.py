@@ -1,6 +1,6 @@
 import pytest
 from finalproject.needleman_wunsch import NeedlemanWunsch
-
+from finalproject.sequence import Sequence
 
 def test_needleman_simple_match():
 
@@ -62,18 +62,21 @@ def test_needleman_empty_variant():
 def test_needleman_simple_test_multiple_seq():
 
     sequences = {
-        "seq1": [
-            "ACGTGCTAGTACCGTATCGTAGCTAGTAC",
-            "ACGTGCTAGTACGTATCGTAGCTAGTAC"
-        ],
-        "seq2": [
-            "GATCGTAGCTAGCTAGGCTATCGTAGCTA",
-            "GATCGTAGCTAGGCTATCGTAGCTA"
-        ],
-        "seq3": [
-            "TTGACCGTAGCTAGCTAACGTTAGCTAGCT",
-            "TTGACGTAGCTAGCTAACGTTAGCTAGCT"
-        ],
+        "seq1": Sequence(
+        name="seq1",
+        original="ACGTGCTAGTACCGTATCGTAGCTAGTAC",
+        variant="ACGTGCTAGTACGTATCGTAGCTAGTAC"
+    ),
+        "seq2": Sequence(
+        name="seq2",
+        original="GATCGTAGCTAGCTAGGCTATCGTAGCTA",
+        variant="GATCGTAGCTAGGCTATCGTAGCTA"
+    ),
+        "seq3": Sequence(
+        name="seq3",
+        original="TTGACCGTAGCTAGCTAACGTTAGCTAGCT",
+        variant="TTGACGTAGCTAGCTAACGTTAGCTAGCT"
+    ),
     }
     
     nw = NeedlemanWunsch(sequences)
