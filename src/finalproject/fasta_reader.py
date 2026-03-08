@@ -1,3 +1,5 @@
+from finalproject.sequence import Sequence
+
 class FastaReader:
     """""
     A class to read a fasta file and return a dictionary of sequences
@@ -16,7 +18,7 @@ class FastaReader:
     def filepath(self) -> str : 
         return self._filepath
 
-    def read(self) -> dict[str, list[str]]:
+    def read(self) -> dict[str, Sequence]:
         """
         Read the fasta file and return a dictionnary of sequences, distinguished by their names,and their variants if any.
 
@@ -48,7 +50,7 @@ class FastaReader:
                         
                     if name is None:
                         name = line[1:].strip()
-                        sequences[name] = ["", ""]
+                        sequences[name] = Sequence(name)
 
                         # The sequence bellow is a variant of the previous one
                     elif "_var" in line:
@@ -62,11 +64,11 @@ class FastaReader:
                 else : 
                     #If name is initialized and variant is False, we are in a non-variant sequence
                     if name is not None and not variant:
-                        sequences[name][0] += line
+                        sequences[name].original += line
                     
                     elif name is not None and variant: 
                     #If name is initialized and variant is True, we are in a variant sequence
-                        sequences[name][1] += line
+                        sequences[name].variant += line
         
         return sequences
 
