@@ -33,8 +33,8 @@ def main():
 
     for name, aligned in alignement.items():
 
-        seq1 = aligned[0]
-        seq2 = aligned[1]
+        seq1 = aligned.original
+        seq2 = aligned.variant
 
         print(f"{name}:", file=out)
         print(seq1, file=out)
