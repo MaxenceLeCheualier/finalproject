@@ -1,8 +1,11 @@
-import pytest
 from finalproject.fasta_reader import FastaReader 
-from finalproject.sequence import Sequence
 
 def test_fasta_reader_simple(tmp_path): 
+    """""
+    A test to check if the fasta reader class can read simple sequences
+    Args:
+        tmp_path: A pytest fixture providing a temporary directory unique to the test invocation.
+    """
     
     fasta_file = tmp_path / "test.fasta"
     
@@ -52,6 +55,11 @@ def test_fasta_reader_simple(tmp_path):
     assert sequences["seq5"].variant == "CCCTAACTTTGCGCAGCTAGGTGGACTGTCGGTTTGTACATACAGCCTCCTGTATTCAG"
 
 def test_fasta_reader_on_two_line(tmp_path):
+    """""
+    A test to check if the fasta reader class can read sequences that are writtten on two lines
+    Args:
+        tmp_path: A pytest fixture providing a temporary directory unique to the test invocation.
+    """
     
     fasta_file = tmp_path / "test_on_two_line.fasta"
     
@@ -72,6 +80,11 @@ def test_fasta_reader_on_two_line(tmp_path):
     assert sequences["seq1"].variant == "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTCTCATATTTCGGTGCCGACA"
 
 def test_fasta_reader_empty_sequence(tmp_path):
+    """""
+    A test to check if the fasta reader class can read an empty sequence
+    Args:
+        tmp_path: A pytest fixture providing a temporary directory unique to the test invocation.
+    """
     
     fasta_file = tmp_path / "empty.fasta"
     fasta_file.write_text("")
@@ -81,6 +94,11 @@ def test_fasta_reader_empty_sequence(tmp_path):
     assert sequences == {}
 
 def test_fasta_reader_commented_line(tmp_path):
+    """""
+    A test to check if the fasta reader class can read an line that is divided by comments 
+    Args:
+        tmp_path: A pytest fixture providing a temporary directory unique to the test invocation.
+    """
     
     fasta_file = tmp_path / "comments.fasta"
     fasta_file.write_text(
@@ -99,6 +117,11 @@ def test_fasta_reader_commented_line(tmp_path):
     assert sequences["seq1"].variant == ""
 
 def test_fasta_reader_without_variant(tmp_path):
+    """""
+    A test to check if the fasta reader class can read an sequence without any variant
+    Args:
+        tmp_path: A pytest fixture providing a temporary directory unique to the test invocation.
+    """
 
     fasta_file = tmp_path / "without_variant.fasta"
     fasta_file.write_text(
