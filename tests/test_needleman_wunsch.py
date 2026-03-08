@@ -2,6 +2,9 @@ from finalproject.needleman_wunsch import NeedlemanWunsch
 from finalproject.sequence import Sequence
 
 def test_needleman_simple_match():
+    """
+    A test to test simple match between two sequences 
+    """
 
     sequences = {
     "seq1": Sequence(
@@ -18,6 +21,9 @@ def test_needleman_simple_match():
     assert aligned["seq1"].variant == "AAAA"
 
 def test_needleman_one_mismatch():
+    """
+    A test in order to check a single mismatch between two sequences
+    """
 
     sequences = {
     "seq1": Sequence(
@@ -40,6 +46,9 @@ def test_needleman_one_mismatch():
     assert var == "TAAA"
 
 def test_needleman_one_gap():
+    """
+    A test in order to check if the algorithm detects one mismatch 
+    """
 
     sequences = {
     "seq1": Sequence(
@@ -60,6 +69,9 @@ def test_needleman_one_gap():
     assert var == "ATGCTG-T"
 
 def test_needleman_empty_variant():
+    """
+    A test to check if in the case of an empty sequence, the algorithm returns a full ---- sequence
+    """
     
     sequences = {
     "seq1": Sequence(name="seq1", original="ATGCTGAT", variant="")
@@ -76,6 +88,10 @@ def test_needleman_empty_variant():
     assert var == "--------"
 
 def test_needleman_simple_test_multiple_seq():
+
+    """
+    Test over several sequences, pretty long sequences
+    """
 
     sequences = {
         "seq1": Sequence(
