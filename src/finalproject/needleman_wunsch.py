@@ -1,9 +1,11 @@
+from finalproject.sequence import Sequence
+
 class NeedlemanWunsch:
     """
     Class to perform global sequence alignment using the Needleman-Wunsch algorithm.
     """
 
-    def __init__(self, sequences : dict[str, list[str]], match_score: int = 1, mismatch_penalty: int = -1, gap_penalty: int = -2) -> None:
+    def __init__(self, sequences : dict[str, Sequence], match_score: int = 1, mismatch_penalty: int = -1, gap_penalty: int = -2) -> None:
         """
         Initialize the Needleman-Wunsch algorithm with scoring parameters.
 
@@ -138,7 +140,7 @@ class NeedlemanWunsch:
 
 
     
-    def align(self, sequences : dict[str, list[str]]) -> dict[str, list[str]]:
+    def align(self, sequences : dict[str, Sequence]) -> dict[str, Sequence]:
         """
         Perform the global sequence alignment for all the sequences in the input dictionary and return a new dictionary with the aligned sequences.
 
@@ -151,13 +153,13 @@ class NeedlemanWunsch:
         aligned_sequences = {}
 
         for name, seqs in sequences.items():
-            seq = seqs[0]
-            var = seqs[1]
+            seq = seqs.original
+            var = seqs.variant
 
             matrix = self.score_matrix(seq, var)
             aligned_seq, aligned_var = self.traceback(matrix, seq, var)
 
-            aligned_sequences[name] = [aligned_seq, aligned_var]
+            aligned_sequences[name] = Sequence(name, aligned_seq, aligned_var)
 
         return aligned_sequences
     
