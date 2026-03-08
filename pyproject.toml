@@ -21,5 +21,6 @@ dev = [
     "coverage>=7.13.2",
     "mypy>=1.19.1",
     "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
     "ruff>=0.14.14",
 ]
