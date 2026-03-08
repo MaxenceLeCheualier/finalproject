@@ -1,5 +1,6 @@
 import pytest
 from finalproject.fasta_reader import FastaReader 
+from finalproject.sequence import Sequence
 
 def test_fasta_reader_simple(tmp_path): 
     
@@ -35,20 +36,20 @@ def test_fasta_reader_simple(tmp_path):
     reader = FastaReader(fasta_file)
     sequences = reader.read()
 
-    assert sequences["seq1"][0] == "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGGTCTCATATTTCGTGGTGCCGACA"
-    assert sequences["seq1"][1] == "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTCTCATATTTCGGTGCCGACA"
+    assert sequences["seq1"].original == "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGGTCTCATATTTCGTGGTGCCGACA"
+    assert sequences["seq1"].variant == "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTCTCATATTTCGGTGCCGACA"
     
-    assert sequences["seq2"][0] == "TAGCTGCTAGTCACATTATATAACTGTTATCGCAAAAACGTGTACATTTGCACAGAGATA"
-    assert sequences["seq2"][1] == "TCCGCTTCCCATTATATAACTGTTATCGCAAAAACGTGTACACTTGCACAGAGATA"
+    assert sequences["seq2"].original  == "TAGCTGCTAGTCACATTATATAACTGTTATCGCAAAAACGTGTACATTTGCACAGAGATA"
+    assert sequences["seq2"].variant == "TCCGCTTCCCATTATATAACTGTTATCGCAAAAACGTGTACACTTGCACAGAGATA"
     
-    assert sequences["seq3"][0] == "GGGGTTGAGTTGTTGGCTCGCTCCTAGCATATTCGCACATTTGATCGGAGTGAACACAAT"
-    assert sequences["seq3"][1] == "GGGTTGAGGTGTTGGCTCGCCTAGCATATTCGCACATTAGATCGGAGTGAACACAAC"
+    assert sequences["seq3"].original  == "GGGGTTGAGTTGTTGGCTCGCTCCTAGCATATTCGCACATTTGATCGGAGTGAACACAAT"
+    assert sequences["seq3"].variant == "GGGTTGAGGTGTTGGCTCGCCTAGCATATTCGCACATTAGATCGGAGTGAACACAAC"
     
-    assert sequences["seq4"][0] == "GATGTATTGCGATTCCGGTCTTTCTTTGATGGCCCTGGCCAAGGTTACAGGTATACAGCA"
-    assert sequences["seq4"][1] == "GATGCATTGCGATTCGGTCTTTCTTTGATGTCCCTGGCCAAGGTTACAGGGTATAGCA"
+    assert sequences["seq4"].original  == "GATGTATTGCGATTCCGGTCTTTCTTTGATGGCCCTGGCCAAGGTTACAGGTATACAGCA"
+    assert sequences["seq4"].variant == "GATGCATTGCGATTCGGTCTTTCTTTGATGTCCCTGGCCAAGGTTACAGGGTATAGCA"
     
-    assert sequences["seq5"][0] == "CCCTTACTTTGAGCAGCTAGGTGGACTGTCGGATTTGTGCATGCAGCCTCCTGTATTCAG"
-    assert sequences["seq5"][1] == "CCCTAACTTTGCGCAGCTAGGTGGACTGTCGGTTTGTACATACAGCCTCCTGTATTCAG"
+    assert sequences["seq5"].original  == "CCCTTACTTTGAGCAGCTAGGTGGACTGTCGGATTTGTGCATGCAGCCTCCTGTATTCAG"
+    assert sequences["seq5"].variant == "CCCTAACTTTGCGCAGCTAGGTGGACTGTCGGTTTGTACATACAGCCTCCTGTATTCAG"
 
 def test_fasta_reader_on_two_line(tmp_path):
     
@@ -67,8 +68,8 @@ def test_fasta_reader_on_two_line(tmp_path):
     reader = FastaReader(fasta_file)
     sequences = reader.read()
 
-    assert sequences["seq1"][0] == "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGGTCTCATATTTCGTGGTGCCGACA"
-    assert sequences["seq1"][1] == "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTCTCATATTTCGGTGCCGACA"
+    assert sequences["seq1"].original  == "GTCCAAAAATTGGGGGGAGTAGATTGACCGTTCAGGGTCTCATATTTCGTGGTGCCGACA"
+    assert sequences["seq1"].variant == "GTCCAAATATTGGGGAGAGTAGATTGATCGTTCAGGGTCTCATATTTCGGTGCCGACA"
 
 def test_fasta_reader_empty_sequence(tmp_path):
     
@@ -94,8 +95,8 @@ def test_fasta_reader_commented_line(tmp_path):
     reader = FastaReader(str(fasta_file))
     sequences = reader.read()
     
-    assert sequences["seq1"][0] == "ACGTTGCA"
-    assert sequences["seq1"][1] == ""
+    assert sequences["seq1"].original  == "ACGTTGCA"
+    assert sequences["seq1"].variant == ""
 
 def test_fasta_reader_without_variant(tmp_path):
 
@@ -108,5 +109,5 @@ def test_fasta_reader_without_variant(tmp_path):
     reader = FastaReader(str(fasta_file))
     sequences = reader.read()
 
-    assert sequences["seq1"][0] == "ACGT"
-    assert sequences["seq1"][1] == ""
+    assert sequences["seq1"].original  == "ACGT"
+    assert sequences["seq1"].variant == ""
