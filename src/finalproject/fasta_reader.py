@@ -31,7 +31,7 @@ class FastaReader:
 
         variant = False
 
-        with open(self._filepath, 'r') as file:
+        with open(self.filepath, 'r') as file:
             for line in file:
                 line = line.strip()
 
