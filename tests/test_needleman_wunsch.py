@@ -1,4 +1,3 @@
-import pytest
 from finalproject.needleman_wunsch import NeedlemanWunsch
 from finalproject.sequence import Sequence
 

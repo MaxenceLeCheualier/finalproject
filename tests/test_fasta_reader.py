@@ -1,6 +1,4 @@
-import pytest
 from finalproject.fasta_reader import FastaReader 
-from finalproject.sequence import Sequence
 
 def test_fasta_reader_simple(tmp_path): 
     
