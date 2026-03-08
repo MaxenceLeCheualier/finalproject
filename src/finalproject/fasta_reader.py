@@ -10,7 +10,11 @@ class FastaReader:
         Args:
             filepath (str) : The path to the fasta file 
         """ 
-        self.filepath = filepath
+        self._filepath = filepath
+
+    @property
+    def filepath(self) -> str : 
+        return self._filepath
 
     def read(self) -> dict[str, list[str]]:
         """

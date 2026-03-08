@@ -13,10 +13,26 @@ class NeedlemanWunsch:
             mismatch_penalty (int): The penalty for a mismatch (default: -1)
             gap_penalty (int): The penalty for a gap (default: -2)
         """
-        self.sequences = sequences
-        self.match_score = match_score
-        self.mismatch_penalty = mismatch_penalty
-        self.gap_penalty = gap_penalty
+        self._sequences = sequences
+        self._match_score = match_score
+        self._mismatch_penalty = mismatch_penalty
+        self._gap_penalty = gap_penalty
+    
+    @property
+    def sequences(self):
+        return self._sequences
+
+    @property
+    def match_score(self):
+        return self._match_score
+
+    @property
+    def mismatch_penalty(self):
+        return self._mismatch_penalty
+
+    @property
+    def gap_penalty(self):
+        return self._gap_penalty
     
     def score_matrix(self, seq : str, var : str) -> list[list[int]] :
         """
